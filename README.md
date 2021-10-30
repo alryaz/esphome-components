@@ -3,11 +3,11 @@ _PS-16-DZ Dimmer_ for _ESPHome_
 
 > Custom component for ESPHome that offers support for PS-16-DZ dimmer devices.
 >
-> [![License](https://img.shields.io/badge/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-> [![Maintained](https://img.shields.io/badge/%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B8%D0%B2%D0%B0%D0%B5%D1%82%D1%81%D1%8F%3F-%D0%B4%D0%B0-green.svg)](https://github.com/alryaz/hass-lkcomu-interrao/graphs/commit-activity)
+> [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+> [![Maintained](https://img.shields.io/badge/Maintained-yes-green.svg)](https://github.com/alryaz/esphome-ps16dz/graphs/commit-activity)
 >
-> [![Donations accepted via](https://img.shields.io/badge/%D0%9F%D0%BE%D0%B6%D0%B5%D1%80%D1%82%D0%B2%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-Yandex-red.svg)](https://money.yandex.ru/to/410012369233217)
-> [![Donations accepted via](https://img.shields.io/badge/%D0%9F%D0%BE%D0%B6%D0%B5%D1%80%D1%82%D0%B2%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-Paypal-blueviolet.svg)](https://www.paypal.me/alryaz)
+> [![Donations accepted via](https://img.shields.io/badge/Donations%20accepted%20via-Yandex-red.svg)](https://money.yandex.ru/to/410012369233217)
+> [![Donations accepted via](https://img.shields.io/badge/Donations%20accepted%20via-Paypal-blueviolet.svg)](https://www.paypal.me/alryaz)
 
 ## Basic device configuration
 
