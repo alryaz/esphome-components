@@ -2,11 +2,11 @@
 
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.const import CONF_GAMMA_CORRECT, CONF_ID, CONF_OUTPUT_ID, CONF_TIME_ID, CONF_TRIGGER_ID
+from esphome.const import CONF_GAMMA_CORRECT, CONF_OUTPUT_ID, CONF_TIME_ID, CONF_TRIGGER_ID
 from esphome.components import uart, light, time
 from esphome import automation
 
-DEPENDENCIES = ["uart"]
+DEPENDENCIES = ["uart", "time"]
 CODEOWNERS = ["@alryaz"]
 
 # Namespace and base class
