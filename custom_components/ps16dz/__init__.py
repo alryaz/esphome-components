@@ -1,0 +1,1 @@
+"""Custom component root for PS-16-DZ dimmer"""
