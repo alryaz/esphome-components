@@ -1,3 +1,34 @@
+/*
+  ps16dz_light.cpp - PS-16-DZ Dimmer support for ESPHome
+
+  Copyright © 2021 Alexander Ryazanov
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+  and associated documentation files (the “Software”), to deal in the Software without
+  restriction, including without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom
+  the Software is furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in all copies or
+  substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  -----
+
+  If modifying this file, in addition to the license above, please ensure to include links back to the original code:
+  https://github.com/arendst/Tasmota/blob/development/tasmota/xdrv_19_ps16dz_dimmer.ino
+  https://github.com/alryaz/esphome-components/blob/main/components/sonoff_d1/README.md
+
+  -----
+
+  THANK YOU!
+  Thanks to the team over at Tasmota for providing the serial codes to control the dimmer!
+  View the source: https://github.com/arendst/Tasmota/blob/development/tasmota/xdrv_19_ps16dz_dimmer.ino
+*/
+
 #include "ps16dz_light.h"
 
 #include "esphome/core/component.h"

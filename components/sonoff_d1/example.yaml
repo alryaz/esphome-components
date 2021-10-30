@@ -4,7 +4,7 @@
 
 # Base platform setup
 esphome:
-  name: ps16dz-dimmer
+  name: sonoff_d1_dimmer
   platform: ESP8266
   board: esp01_1m
 
@@ -17,7 +17,7 @@ ota:
 # Enable access point mode
 wifi:
   ap:
-    ssid: "Test Hotspot for PS-16-DZ"
+    ssid: "Test Hotspot for Sonoff D1"
     password: "testhotspot"
 
 # Redirect AP clients to device Home Page
@@ -43,39 +43,18 @@ external_components:
       type: git
       url: https://github.com/alryaz/esphome-components
       ref: main
-    components: [ ps16dz ]
-
-# Time platform is mandatory due to synchronization specifics
-time:
-  - platform: homeassistant
-  - platform: sntp
+    components: [ sonoff_d1 ]
 
 # UART must be set to 19200 baud rate (required by Nuvoton chip)
 uart:
-  baud_rate: 19200
+  baud_rate: 9600
   tx_pin: TX  # GPIO1 pin
   rx_pin: RX  # GPIO3 pin
 
 light:
     # Create test light
-  - platform: ps16dz
-    name: "PS-16-DZ Dimmer"
-    on_settings_enter:
-      # Hook: on settings enter (3-5 second central button push)
-      then:
-        if:
-          condition:
-            light.is_off: status_led_1
-          then:
-            light.turn_on: status_led_1
-    on_settings_exit:
-      # Hook: on settings exit (3-5 second central button push)
-      then:
-        if:
-          condition:
-            light.is_on: status_led_1
-          then:
-            light.turn_off: status_led_1
+  - platform: sonoff_d1
+    name: "Sonoff D1 Dimmer"
     
     # Status LED (optional, located on GPIO13 for my test device)
   - platform: status_led
