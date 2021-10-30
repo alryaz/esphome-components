@@ -1,7 +1,8 @@
-_PS-16-DZ Dimmer_ for _ESPHome_
+My custom components for ESPHome
 ==================================================
 
-> Custom component for ESPHome that offers support for PS-16-DZ dimmer devices.
+> Various ESPHome components implemented for my home devices:
+> - **PS-16-DZ Dimmer**: Light switch with dimmer functionality
 >
 > [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > [![Maintained](https://img.shields.io/badge/Maintained-yes-green.svg)](https://github.com/alryaz/esphome-ps16dz/graphs/commit-activity)
@@ -9,7 +10,9 @@ _PS-16-DZ Dimmer_ for _ESPHome_
 > [![Donations accepted via](https://img.shields.io/badge/Donations%20accepted%20via-Yandex-red.svg)](https://money.yandex.ru/to/410012369233217)
 > [![Donations accepted via](https://img.shields.io/badge/Donations%20accepted%20via-Paypal-blueviolet.svg)](https://www.paypal.me/alryaz)
 
-## Basic device configuration
+## PS-16-DZ-Dimmer - `ps16dz`
+
+### Basic device configuration
 
 _Complete example may be viewed inside [`example.yaml` file](https://github.com/alryaz/esphome-ps16dz/blob/main/example.yaml)._
 
