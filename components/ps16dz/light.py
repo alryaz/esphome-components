@@ -32,7 +32,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(CONF_OUTPUT_ID): cv.declare_id(PS16DZLight),
             cv.GenerateID(CONF_TIME_ID): cv.use_id(time.RealTimeClock),
-            cv.Optional(CONF_GAMMA_CORRECT, default=0): cv.positive_float,
+            # cv.Optional(CONF_GAMMA_CORRECT, default=0): cv.positive_float,
             cv.Optional(CONF_ON_SETTINGS_ENTER): automation.validate_automation(
                 {
                     cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
