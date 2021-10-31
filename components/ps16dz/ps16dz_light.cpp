@@ -78,11 +78,25 @@ namespace esphome
             this->serial_send(tx_buffer);
         }
 
-        void PS16DZLight::setup_state(light::LightState *state) { this->state_ = state; }
+        void PS16DZLight::setup_state(light::LightState *state) {
+            this->state_ = state;
+            this->current_state_ = state->current_values.is_on();
+
+            float esphome_brightness;
+            
+            if (this->current_state_) {
+                state->current_values_as_brightness(&esphome_brightness);
+            } else {
+                // save original brightness to the device
+                esphome_brightness = gamma_correct(state->current_values.get_brightness(), state->get_gamma_correct());
+            }
+
+            this->current_brightness_ = esphome_brightness * 100;
+        }
 
         void PS16DZLight::write_state(light::LightState *state)
         {
-            this->state_ = state;
+            this->setup_state(state);
 
             if (this->state_received_)
             {
@@ -90,15 +104,7 @@ namespace esphome
             }
             else
             {
-                bool switch_state;
-                float esphome_dimmer_value;
-
-                state->current_values_as_binary(&switch_state);
-                state->current_values_as_brightness(&esphome_dimmer_value);
-
-                const int dimmer_value = round(esphome_dimmer_value * 100);
-
-                execute_command(switch_state, dimmer_value);
+                execute_command(this->current_state_, this->current_brightness_);
             }
         }
 
@@ -144,16 +150,9 @@ namespace esphome
                         char *string = this->read_buffer_ + 10;
                         char *token = strtok_r(string, ",", &end_str);
 
-                        bool old_state;
-                        float old_value;
-
-                        this->state_->current_values_as_binary(&old_state);
-                        this->state_->current_values_as_brightness(&old_value);
-
-                        old_value = round(old_value * 100);
-
-                        bool new_state = old_state;
-                        float new_value = old_value;
+                        // prepare state
+                        bool new_state = this->current_state_;
+                        int new_brightness = this->current_brightness_;
 
                         while (token != nullptr)
                         {
@@ -168,7 +167,11 @@ namespace esphome
                             }
                             else if (!strncmp(token2, "\"bright\"", 8))
                             {
-                                new_value = atoi(token3);
+                                new_brightness = atoi(token3);
+                                
+                                new_brightness = new_brightness > 100 ? 100 : new_brightness;
+                                new_brightness = new_brightness < 0 ? 0 : new_brightness;
+
                                 // ESP_LOGD("ps16dz", "New brightness %f%%", new_value);
                             }
                             else if (!strncmp(token2, "\"sequence\"", 10))
@@ -178,34 +181,25 @@ namespace esphome
                             token = strtok_r(nullptr, ",", &end_str);
                         }
 
-                        if (old_value == new_value)
+                        if (this->current_brightness_ == new_brightness)
                         {
                             // ESP_LOGD("ps16dz", "Update");
                             serial_send_ok();
                         }
 
-                        if ((old_state != new_state) || (old_value != new_value))
+                        if ((this->current_brightness_ != new_brightness) || (this->current_state_ != new_state))
                         {
-                            // ESP_LOGD("ps16dz", "Values: %s ? %s, %f ? %f", old_state ? "on" : "off", new_state ? "on" : "off", old_value, new_value);
-                            state_received_ = true;
+                            this->state_received_ = true;
                             auto call = this->state_->make_call();
-                            if (old_state != new_state)
-                            {
-                                call.set_state(new_state);
-                            }
-                            if (old_value != new_value)
-                            {
-                                call.set_brightness(new_value / 100);
-                            }
+                            call.set_state(new_state);
+                            call.set_brightness(((float) new_brightness) / 100);
                             call.set_transition_length(0); // effectively cancels looping caused by transition
                             call.perform();
                         }
                     }
                     else if (!strncmp(this->read_buffer_ + 3, "SETTING", 7))
                     {
-                        bool is_entered = strncmp(this->read_buffer_ + 10, "=exit", 5);
-                        
-                        if (is_entered) {
+                        if (strncmp(this->read_buffer_ + 10, "=exit", 5)) {
                             if (!this->in_settings_mode_) {
                                 this->in_settings_mode_ = true;
                                 ESP_LOGD("ps16dz", "Entered settings mode");

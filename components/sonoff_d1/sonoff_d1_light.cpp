@@ -79,11 +79,24 @@ namespace esphome
             this->flush();
         }
 
-        void SonoffD1Light::setup_state(light::LightState *state) { this->state_ = state; }
+        void SonoffD1Light::setup_state(light::LightState *state) {
+            this->state_ = state;
+            this->current_state_ = state->current_values.is_on();
+
+            float esphome_brightness;
+
+            if (this->current_state_) {
+                state->current_values_as_brightness(&esphome_brightness);
+            } else {
+                esphome_brightness = gamma_correct(state->current_values.get_brightness(), state->get_gamma_correct());
+            }
+
+            this->current_brightness_ = esphome_brightness * 100;
+        }
 
         void SonoffD1Light::write_state(light::LightState *state)
         {
-            this->state_ = state;
+            this->setup_state(state);
 
             if (this->state_received_)
             {
@@ -91,15 +104,7 @@ namespace esphome
             }
             else
             {
-                bool switch_state;
-                float esphome_dimmer_value;
-
-                state->current_values_as_binary(&switch_state);
-                state->current_values_as_brightness(&esphome_dimmer_value);
-
-                const uint8_t dimmer_value = round(esphome_dimmer_value * 64);
-
-                this->execute_command(switch_state, dimmer_value);
+                execute_command(this->current_state_, this->current_brightness_);
             }
         }
 
@@ -155,33 +160,18 @@ namespace esphome
                             }
                             else
                             {
-                                bool new_state = this->read_buffer_[6],
-                                     old_state;
-                                float new_value = this->read_buffer_[7],
-                                      old_value;
+                                bool new_state = this->read_buffer_[6];
+                                int new_brightness = this->read_buffer_[7];
 
-                                if (new_value > 100) {
-                                    ESP_LOGW("sonoff_d1", "Received abnormal dimmer value: %d", new_value);
-                                    new_value = 100;
-                                }
+                                new_brightness = new_brightness > 100 ? 100 : new_brightness;
+                                new_brightness = new_brightness < 0 ? 0 : new_brightness;
 
-                                this->state_->current_values_as_binary(&old_state);
-                                this->state_->current_values_as_brightness(&old_value);
-
-                                old_value = round(old_value * 100);
-
-                                if ((new_state != old_state) || (new_value != old_value))
+                                if ((this->current_state_ != new_state) || (new_brightness != this->current_brightness_))
                                 {
                                     state_received_ = true;
                                     auto call = this->state_->make_call();
-                                    if (old_state != new_state)
-                                    {
-                                        call.set_state(new_state);
-                                    }
-                                    if (old_value != new_value)
-                                    {
-                                        call.set_brightness(new_value / 100);
-                                    }
+                                    call.set_state(new_state);
+                                    call.set_brightness(((float) new_brightness) / 100);
                                     call.set_transition_length(0); // effectively cancels looping caused by transition
                                     call.perform();
                                 }

@@ -57,6 +57,8 @@ namespace esphome
             bool in_settings_mode_{false};
             light::LightState *state_{nullptr};
             time::RealTimeClock *time_{nullptr};
+            bool current_state_{false};
+            uint8_t current_brightness_{0};
 
         protected:
             char read_buffer_[PS16DZ_READ_BUFFER_LENGTH];

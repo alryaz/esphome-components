@@ -56,6 +56,8 @@ namespace esphome
             uint8_t read_pos_{0};
             uint8_t read_buffer_[SONOFF_D1_READ_BUFFER_LENGTH]{};
             light::LightState *state_{nullptr};
+            bool current_state_{false};
+            uint8_t current_brightness_{0};
 
         public:
             light::LightTraits get_traits() override
