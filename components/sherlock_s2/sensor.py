@@ -39,6 +39,7 @@ SherlockS2LockStateTrigger = sherlock_s2_ns.class_(
     automation.Trigger.template(cg.float_),
 )
 
+CONF_BATTERY_VOLTAGE = "battery_voltage"
 CONF_ON_ACTION_START = "on_action_start"
 CONF_ON_LOCK = "on_lock"
 CONF_ON_UNLOCK = "on_unlock"
@@ -52,7 +53,7 @@ _lock_state_trigger_validator = automation.validate_automation(
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(SherlockS2Component),
-        cv.Optional(CONF_VOLTAGE): sensor.sensor_schema(
+        cv.Optional(CONF_BATTERY_VOLTAGE): sensor.sensor_schema(
             unit_of_measurement=UNIT_VOLT,
             accuracy_decimals=3,
             device_class=DEVICE_CLASS_VOLTAGE,
