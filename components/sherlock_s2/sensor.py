@@ -100,7 +100,7 @@ async def to_code(config):
         cg.add(var.set_battery_level_sensor(sens))
 
     for conf in config.get(CONF_ON_ACTION_START, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID])
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, (), conf)
 
     for key, cg_call in (
