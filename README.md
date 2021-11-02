@@ -15,6 +15,8 @@ More information about the implementation as well as credits are available in _R
 
 Code adaptation is performed primarily for personal use. Issues will be resolved if reported.
 
-## [Kingart PS-16-DZ Dimmer](https://github.com/alryaz/esphome-components/blob/main/components/ps16dz/README.md)
+## [Kingart PS-16-DZ Dimmer](https://github.com/alryaz/esphome-components/tree/main/components/ps16dz)
 
-## [Sonoff D1 Dimmer](https://github.com/alryaz/esphome-components/blob/main/components/sonoff_d1/README.md)
+## [Sonoff D1 Dimmer](https://github.com/alryaz/esphome-components/tree/main/components/sonoff_d1)
+
+## [Sherlock S2 Smart Lock](https://github.com/alryaz/esphome-components/tree/main/components/sherlock_s2)

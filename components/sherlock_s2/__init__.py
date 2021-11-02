@@ -1,0 +1,1 @@
+"""Custom component root for Sherlock S2 Smart Lock"""
