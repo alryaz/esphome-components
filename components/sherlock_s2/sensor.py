@@ -101,8 +101,7 @@ async def to_code(config):
 
     for conf in config.get(CONF_ON_ACTION_START, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID])
-        cg.add(var.add_on_action_start_callback(trigger))
-        await automation.build_automation(trigger, [], conf)
+        await automation.build_automation(trigger, (), conf)
 
     for key, cg_call in (
         (CONF_ON_LOCK, var.add_on_lock_trigger),
