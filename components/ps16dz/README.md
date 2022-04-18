@@ -18,7 +18,7 @@ logger:
 external_components:
   - source:
       type: git
-      url: https://github.com/alryaz/esphome-ps16dz
+      url: https://github.com/alryaz/esphome-components
       ref: main
     components: [ ps16dz ]
 
