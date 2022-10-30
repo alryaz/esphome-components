@@ -42,16 +42,7 @@ namespace esphome
                 {
                     return;
                 }
-                if (serial_in_byte != '\r')
-                {
-                    // read until message is finished
-                    if (this->read_pos_ == sizeof(this->read_buffer_))
-                    {
-                        this->read_pos_ = 0;
-                    }
-                    this->read_buffer_[this->read_pos_++] = serial_in_byte;
-                }
-                else
+                if (serial_in_byte == '\r')
                 {
                     // message is finished, attempt to parse
                     this->read_buffer_[this->read_pos_++] = 0x00;
@@ -171,6 +162,16 @@ namespace esphome
                     // clear read
                     memset(this->read_buffer_, 0, sizeof(this->read_buffer_));
                     this->read_pos_ = 0;
+                }
+                else if (serial_in_byte < 0x80)
+                {
+                    // read until message is finished
+                    // treat only valid printable characters, ignore noise
+                    if (this->read_pos_ == sizeof(this->read_buffer_))
+                    {
+                        this->read_pos_ = 0;
+                    }
+                    this->read_buffer_[this->read_pos_++] = serial_in_byte;
                 }
             }
         }
