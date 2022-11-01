@@ -2,11 +2,11 @@
 
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.const import CONF_GAMMA_CORRECT, CONF_OUTPUT_ID, CONF_TIME_ID, CONF_TRIGGER_ID
-from esphome.components import uart, light, time
+from esphome.const import CONF_GAMMA_CORRECT, CONF_OUTPUT_ID, CONF_TRIGGER_ID, CONF_MIN_VALUE, CONF_MAX_VALUE
+from esphome.components import uart, light
 from esphome import automation
 
-DEPENDENCIES = ["uart", "time"]
+DEPENDENCIES = ["uart"]
 CODEOWNERS = ["@alryaz"]
 
 # Namespace and base class
@@ -31,8 +31,9 @@ CONFIG_SCHEMA = cv.All(
     light.BRIGHTNESS_ONLY_LIGHT_SCHEMA.extend(
         {
             cv.GenerateID(CONF_OUTPUT_ID): cv.declare_id(PS16DZLight),
-            cv.GenerateID(CONF_TIME_ID): cv.use_id(time.RealTimeClock),
-            # cv.Optional(CONF_GAMMA_CORRECT, default=0): cv.positive_float,
+            cv.Optional(CONF_GAMMA_CORRECT, default=0): cv.positive_float,
+            cv.Optional(CONF_MIN_VALUE, default=0): cv.int_range(min=0, max=100),
+            cv.Optional(CONF_MAX_VALUE, default=100): cv.int_range(min=0, max=100),
             cv.Optional(CONF_ON_SETTINGS_ENTER): automation.validate_automation(
                 {
                     cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
@@ -64,9 +65,6 @@ async def to_code(config):
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
     await light.register_light(var, config)
-
-    time_ = await cg.get_variable(config[CONF_TIME_ID])
-    cg.add(var.set_time(time_))
 
     for key in (CONF_ON_SETTINGS_ENTER, CONF_ON_SETTINGS_EXIT):
         for conf in config.get(key, []):

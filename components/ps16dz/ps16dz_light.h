@@ -34,10 +34,10 @@
 #include "esphome/components/light/light_output.h"
 #include "esphome/components/light/light_state.h"
 #include "esphome/components/light/light_traits.h"
-#include "esphome/components/time/real_time_clock.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/core/automation.h"
 #include "esphome/core/component.h"
+#include "esphome/core/log.h"
 
 #include <cstring>
 
@@ -53,36 +53,37 @@ namespace esphome
         class PS16DZLight : public uart::UARTDevice, public light::LightOutput, public Component
         {
         private:
-            bool state_received_{false};
             bool in_settings_mode_{false};
             light::LightState *state_{nullptr};
-            time::RealTimeClock *time_{nullptr};
-            bool current_state_{false};
-            uint8_t current_brightness_{0};
+            bool last_binary_{false};
+            uint8_t last_brightness_{0};
+            uint64_t sequence_number{0};
 
         protected:
             char read_buffer_[PS16DZ_READ_BUFFER_LENGTH];
             size_t read_pos_{0};
             CallbackManager<void()> settings_enter_callback_{};
             CallbackManager<void()> settings_exit_callback_{};
+            uint8_t min_value_{0};
+            uint8_t max_value_{100};
+
+            void serial_send_(const char *tx_buffer);
+            void serial_send_ok_(void);
+            void execute_command_(const bool &switch_state, const int &dimmer_value);
 
         public:
-            void set_time(time::RealTimeClock *time) { time_ = time; }
-            time::RealTimeClock *get_time() const { return time_; }
-            light::LightTraits get_traits() override
-            {
-                auto traits = light::LightTraits();
-                traits.set_supported_color_modes({light::ColorMode::BRIGHTNESS});
-                return traits;
-            }
-
+            // LightOutput methods
+            light::LightTraits get_traits() override;
+            void write_state(light::LightState *state) override;
+            void setup_state(light::LightState *state) override { this->state_ = state; };
+            
+            // Component methods
+            void setup() override{};
             void loop() override;
-            void serial_send(const char *tx_buffer);
-            void serial_send_ok(void);
-            void execute_command(const bool &switch_state, const int &dimmer_value);
-            void write_state(light::LightState *state);
-            void setup_state(light::LightState *state);
+            void dump_config() override;
+            float get_setup_priority() const override { return esphome::setup_priority::DATA; }
 
+            // Callback handlers
             void add_on_settings_enter_callback(std::function<void()> &&callback);
             void add_on_settings_exit_callback(std::function<void()> &&callback);
         };

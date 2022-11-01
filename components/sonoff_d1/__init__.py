@@ -1,1 +1,0 @@
-"""Custom component root for Sonoff D1 dimmer"""
