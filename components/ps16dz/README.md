@@ -22,11 +22,6 @@ external_components:
       ref: main
     components: [ ps16dz ]
 
-# Time platform is mandatory due to synchronization specifics
-time:
-  - platform: homeassistant
-  - platform: sntp
-
 # UART must be set to 19200 baud rate (required by Nuvoton chip)
 uart:
   baud_rate: 19200
