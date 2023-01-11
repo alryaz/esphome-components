@@ -1,6 +1,19 @@
 Sherlock S2 Smart Lock
 ===
 
+## Internal wiring
+```
+RX (Lock) <--> TX (ESP)
+TX (Lock) <--> RX (ESP)
+GND (Lock) <--> GND (ESP)
+Button Signal Input (Lock) <--> GPIO0 (ESP)
+Button Signal Output (Lock) <--> GPIO2 (ESP)
+Battery Positive (Lock) <--> Power in (AMS1117)
+GND (Lock) <--> GND (AMS1117)
+3.3V (AMS1117) <--> 3.3V (ESP)
+5V Positive (PSU) <--> Charge Positive (Battery)
+5V Negative (PSU) <--> Charge Negative (Battery)
+```
 
 ## Example configuration
 ```yaml
