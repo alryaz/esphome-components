@@ -1,4 +1,5 @@
 esphome:
+  name: "${board_name}"
   comment: "hekr-power-meter"
   project:
     name: "hekr-power-meter"
