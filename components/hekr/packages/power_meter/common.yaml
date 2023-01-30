@@ -100,7 +100,7 @@ sensor:
   ## IMPLEMENTED AS PART OF CMD 1
   # - platform: hekr
   #   name: "${friendly_name} Total Energy Consumed"
-    id: sensor_total_energy_consumed
+  #   id: sensor_total_energy_consumed_second
   #   command: 11
   #   position: 49
   #   length: 4
