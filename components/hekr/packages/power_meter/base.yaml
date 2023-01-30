@@ -1,8 +1,8 @@
 esphome:
   name: "${board_name}"
-  comment: "hekr-power-meter"
+  comment: "Hekr Power Meter"
   project:
-    name: "hekr-power-meter"
+    name: "hekr.power_meter"
     version: "0.0.1"
 
 # This board is the closest to what the original is.
