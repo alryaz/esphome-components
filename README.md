@@ -18,3 +18,5 @@ Code adaptation is performed primarily for personal use. Issues will be resolved
 ## [Kingart PS-16-DZ Dimmer](https://github.com/alryaz/esphome-components/tree/main/components/ps16dz)
 
 ## [Sherlock S2 Smart Lock](https://github.com/alryaz/esphome-components/tree/main/components/sherlock_s2)
+
+## [Hekr Serial Communication Protocol](https://github.com/alryaz/esphome-components/tree/main/components/hekr)

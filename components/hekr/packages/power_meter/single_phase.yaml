@@ -1,0 +1,24 @@
+# Load base packages for power meter module hardware.
+packages:
+  power_meter_base: !include base.yaml
+  power_meter_common: !include common.yaml
+
+sensor:
+  - platform: hekr
+    name: "${friendly_name} Current"
+    id: sensor_current
+    command: 11
+    position: 0
+    length: 3
+    unit_of_measurement: "A"
+    filters:
+      - multiply: 0.001
+  - platform: hekr
+    name: "${friendly_name} Voltage"
+    id: sensor_voltage
+    command: 11
+    position: 9
+    length: 2
+    unit_of_measurement: "V"
+    filters:
+      - multiply: 0.1

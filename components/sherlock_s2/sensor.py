@@ -3,18 +3,12 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor, uart
 from esphome.const import (
-    CONF_CURRENT,
     CONF_ID,
-    CONF_POWER,
     CONF_TRIGGER_ID,
     CONF_VOLTAGE,
-    DEVICE_CLASS_CURRENT,
-    DEVICE_CLASS_POWER,
     DEVICE_CLASS_VOLTAGE,
     STATE_CLASS_MEASUREMENT,
     UNIT_VOLT,
-    UNIT_AMPERE,
-    UNIT_WATT,
     DEVICE_CLASS_BATTERY,
     UNIT_PERCENT,
     CONF_BATTERY_LEVEL,

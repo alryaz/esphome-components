@@ -1,0 +1,125 @@
+# @TODO: unify both energy consumption monitors
+
+switch:
+  - platform: hekr
+    name: "${friendly_name}"
+    command: 1
+    position: 1
+    command_on: [0x09, 0x00]
+    command_off: [0x09, 0x01]
+    value_on: 0x00
+    value_off: 0x01
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+
+button:
+  - platform: template
+    name: "${friendly_name} Query Basic Info"
+    id: button_query_device
+    on_press:
+      then:
+        hekr.command: 0
+  - platform: template
+    name: "${friendly_name} Query Settings"
+    id: button_query_settings
+    entity_category: diagnostic
+    on_press:
+      then:
+        hekr.command: 2
+  - platform: template
+    name: "${friendly_name} Clear Device"
+    id: button_clear_device
+    entity_category: config
+    on_press: 
+      then:
+        hekr.command: 5
+  - platform: template
+    name: "${friendly_name} Query Meter ID"
+    id: button_query_meter_id
+    entity_category: diagnostic
+    on_press:
+      then:
+        hekr.command: 2
+  - platform: template
+    name: "${friendly_name} Query Extended Info"
+    id: button_query_extended_info
+    entity_category: diagnostic
+    on_press:
+      then:
+        hekr.command: 10
+
+sensor:
+  ## DISABLED AS ... WHY IS IT REALLY NEEDED?
+  # - platform: hekr
+  #   name: "${friendly_name} Phase Count"
+    id: sensor_phase_count
+  #   command: 1
+  #   position: 0
+  #   length: 1
+  #   unit_of_measurement: "phase(s)"
+  - platform: hekr
+    name: "${friendly_name} Total Energy Consumed"
+    id: sensor_total_energy_consumed
+    command: 1
+    position: 1
+    length: 4
+    filters:
+      - multiply: 0.01
+  - platform: hekr
+    name: "${friendly_name} Reactive Power"
+    id: sensor_reactive_power
+    command: 11
+    position: 15
+    length: 3
+    filters: &power_filters
+      - lambda: &to_signed_float_filter "return x < 100000 ? x : 100000 - x;"
+      - multiply: 0.0001
+  - platform: hekr
+    name: "${friendly_name} Active Power"
+    id: sensor_active_power
+    command: 11
+    position: 27
+    length: 3
+    filters: *power_filters
+  - platform: hekr
+    name: "${friendly_name} Power Factor"
+    id: sensor_power_factor
+    command: 11
+    position: 39
+    length: 2
+    filters:
+      - lambda: *to_signed_float_filter
+      - multiply: 0.001
+  - platform: hekr
+    name: "${friendly_name} Frequency"
+    id: sensor_frequency
+    command: 11
+    position: 47
+    length: 2
+    unit_of_measurement: "Hz"
+    filters:
+      - multiply: 0.01
+  ## IMPLEMENTED AS PART OF CMD 1
+  # - platform: hekr
+  #   name: "${friendly_name} Total Energy Consumed"
+    id: sensor_total_energy_consumed
+  #   command: 11
+  #   position: 49
+  #   length: 4
+  #   unit_of_measurement: "kWh"
+  - platform: hekr
+    name: "${friendly_name} Active Energy Import"
+    id: sensor_active_energy_import
+    command: 11
+    position: 53
+    length: 4
+    filters:
+      - multiply: 0.01
+  - platform: hekr
+    name: "${friendly_name} Active Energy Export"
+    id: sensor_active_energy_export
+    command: 11
+    position: 57
+    length: 4
+    filters:
+      - multiply: 0.01

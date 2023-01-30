@@ -1,0 +1,124 @@
+# Load base packages for power meter module hardware.
+packages:
+  power_meter_base: !include base.yaml
+  power_meter_common: !include common.yaml
+
+# Following sensors are applicanble for triple-phase power meters.
+sensor:
+  - platform: hekr
+    name: "${friendly_name} Phase 1 Current"
+    id: sensor_phase_1_current
+    command: 11
+    position: 0
+    length: 3
+    unit_of_measurement: "A"
+    filters: &current_filters
+      - multiply: 0.001
+  - platform: hekr
+    name: "${friendly_name} Phase 2 Current"
+    id: sensor_phase_2_current
+    command: 11
+    position: 3
+    length: 3
+    unit_of_measurement: "A"
+    filters: *current_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 3 Current"
+    id: sensor_phase_3_current
+    command: 11
+    position: 6
+    length: 3
+    unit_of_measurement: "A"
+    filters: *current_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 1 Voltage"
+    id: sensor_phase_1_voltage
+    command: 11
+    position: 9
+    length: 2
+    unit_of_measurement: "V"
+    filters: &voltage_filters
+      - multiply: 0.1
+  - platform: hekr
+    name: "${friendly_name} Phase 2 Voltage"
+    id: sensor_phase_2_voltage
+    command: 11
+    position: 11
+    length: 2
+    unit_of_measurement: "V"
+    filters: *voltage_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 3 Voltage"
+    id: sensor_phase_3_voltage
+    command: 11
+    position: 13
+    length: 2
+    unit_of_measurement: "V"
+    filters: *voltage_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 1 Reactive Power"
+    id: sensor_phase_1_reactive_power
+    command: 11
+    position: 18
+    length: 3
+    filters: &power_filters
+      - lambda: &to_signed_float_filter "return x < 100000 ? x : 100000 - x;"
+      - multiply: 0.0001
+  - platform: hekr
+    name: "${friendly_name} Phase 2 Reactive Power"
+    id: sensor_phase_2_reactive_power
+    command: 11
+    position: 21
+    length: 3
+    filters: *power_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 3 Reactive Power"
+    id: sensor_phase_3_reactive_power
+    command: 11
+    position: 24
+    length: 3
+    filters: *power_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 1 Active Power"
+    id: sensor_phase_1_active_power
+    command: 11
+    position: 30
+    length: 3
+    filters: *power_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 2 Active Power"
+    id: sensor_phase_2_active_power
+    command: 11
+    position: 33
+    length: 3
+    filters: *power_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 3 Active Power"
+    id: sensor_phase_3_active_power
+    command: 11
+    position: 36
+    length: 3
+    filters: *power_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 1 Power Factor"
+    id: sensor_phase_1_power_factor
+    command: 11
+    position: 41
+    length: 2
+    filters: &factor_filters
+      - lambda: *to_signed_float_filter
+      - multiply: 0.001
+  - platform: hekr
+    name: "${friendly_name} Phase 2 Power Factor"
+    id: sensor_phase_2_power_factor
+    command: 11
+    position: 43
+    length: 2
+    filters: *factor_filters
+  - platform: hekr
+    name: "${friendly_name} Phase 3 Power Factor"
+    id: sensor_phase_3_power_factor
+    command: 11
+    position: 45
+    length: 2
+    filters: *factor_filters
