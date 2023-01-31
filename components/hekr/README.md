@@ -30,9 +30,13 @@ substitutions:
   friendly_name: Root Energy Meter
 
 packages:
+  ## Load basic configuration
+  base: github://alryaz/esphome-components/components/hekr/packages/power_meter/base.yaml@main
+  common: github://alryaz/esphome-components/components/hekr/packages/power_meter/common.yaml@main
+
   ## Only one of the following options must be enabled!
-  power_meter: github://alryaz/esphome-components/components/hekr/packages/power_meter/single_phase.yaml@main
-  #power_meter: github://alryaz/esphome-components/components/hekr/packages/power_meter/triple_phase.yaml@main
+  single_phase: github://alryaz/esphome-components/components/hekr/packages/power_meter/single_phase.yaml@main
+  #triple_phase: github://alryaz/esphome-components/components/hekr/packages/power_meter/triple_phase.yaml@main
 
 # ...
 # Add your own ESPHome configuration somewhere around here

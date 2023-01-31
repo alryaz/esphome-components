@@ -1,8 +1,3 @@
-# Load base packages for power meter module hardware.
-packages:
-  power_meter_base: !include base.yaml
-  power_meter_common: !include common.yaml
-
 # Following sensors are applicanble for triple-phase power meters.
 sensor:
   - platform: hekr
