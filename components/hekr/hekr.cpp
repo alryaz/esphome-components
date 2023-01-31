@@ -271,6 +271,7 @@ namespace esphome
                 ESP_LOGD(TAG, "factory test mode disabled");
             else
                 ESP_LOGD(TAG, "factory test mode enabled");
+            delete response_frame;
         }
 
         void Hekr::handle_frame_control_validate_product_key(const uint8_t frame_id, const uint8_t *data, const uint8_t length)
@@ -283,6 +284,7 @@ namespace esphome
             uint8_t response_length = 2,
                     *response_frame = new uint8_t[response_length]{0x11, 0x01};
             response_length = 2;
+            delete response_frame;
         }
 
         void Hekr::handle_frame_control_enter_sleep(const uint8_t frame_id, const uint8_t *data, const uint8_t length)

@@ -46,8 +46,11 @@ namespace esphome
             auto command = state ? (this->command_on_is_template_ ? this->command_on_template_() : this->command_on_static_) : (this->command_off_is_template_ ? this->command_off_template_() : this->command_off_static_);
             this->parent_->send_frame_command(&command[0], command.size());
 
+            // @TODO: replace with error handling
             if (this->optimistic_)
+            {
                 this->publish_state(state);
+            }
         }
 
         void HekrSwitch::dump_config()
