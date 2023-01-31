@@ -1,6 +1,7 @@
 esphome:
   name: "${board_name}"
   comment: "Hekr Power Meter"
+  platform: esp8266
   project:
     name: "hekr.power_meter"
     version: "0.0.1"
