@@ -101,10 +101,6 @@ sensor:
   - platform: hekr
     name: "${friendly_name} Power Factor"
     id: sensor_power_factor
-    accuracy_decimals: 3
-    state_class: measurement
-    device_class: frequency
-    unit_of_measurement: "Hz"
     command: 11
     position: 39
     length: 2
@@ -112,6 +108,7 @@ sensor:
       - lambda: *to_signed_float_filter
       - multiply: 0.001
     icon: "mdi:math-cos"
+    accuracy_decimals: 3
     state_class: measurement
     device_class: power_factor
 
