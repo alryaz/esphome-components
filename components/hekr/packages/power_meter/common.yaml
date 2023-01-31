@@ -3,10 +3,10 @@ switch:
     name: "${friendly_name}"
     command: 1
     position: 1
-    command_on: [0x09, 0x00]
-    command_off: [0x09, 0x01]
-    value_on: 0x00
-    value_off: 0x01
+    command_on: [0x09, 0x01]
+    command_off: [0x09, 0x00]
+    value_on: 0x01
+    value_off: 0x00
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
 
@@ -56,47 +56,79 @@ sensor:
   #   length: 1
   #   unit_of_measurement: "phase(s)"
   - platform: hekr
-    name: "${friendly_name} Total Energy Consumed"
-    id: sensor_total_energy_consumed
+    name: "${friendly_name} Total Energy"
+    id: sensor_total_energy
     command: 1
     position: 1
     length: 4
     filters:
       - multiply: 0.01
+    icon: "mdi:gauge"
+    accuracy_decimals: 2
+    state_class: total
+    device_class: energy
+    unit_of_measurement: "kWh"
+  
   - platform: hekr
     name: "${friendly_name} Reactive Power"
     id: sensor_reactive_power
     command: 11
     position: 15
     length: 3
-    filters: &power_filters
+    filters:
       - lambda: &to_signed_float_filter "return x < 100000 ? x : 100000 - x;"
-      - multiply: 0.0001
+      #- multiply: 0.0001
+    accuracy_decimals: 4
+    state_class: measurement
+    device_class: reactive_power
+    unit_of_measurement: kVAr
+
   - platform: hekr
     name: "${friendly_name} Active Power"
     id: sensor_active_power
     command: 11
     position: 27
     length: 3
-    filters: *power_filters
+    filters:
+      - lambda: *to_signed_float_filter
+      - multiply: 0.0001
+    icon: mdi:lightning-bolt
+    accuracy_decimals: 4
+    state_class: measurement
+    device_class: power
+    unit_of_measurement: "W"
+
   - platform: hekr
     name: "${friendly_name} Power Factor"
     id: sensor_power_factor
+    accuracy_decimals: 3
+    state_class: measurement
+    device_class: frequency
+    unit_of_measurement: "Hz"
     command: 11
     position: 39
     length: 2
     filters:
       - lambda: *to_signed_float_filter
       - multiply: 0.001
+    icon: "mdi:math-cos"
+    state_class: measurement
+    device_class: power_factor
+
   - platform: hekr
     name: "${friendly_name} Frequency"
     id: sensor_frequency
     command: 11
     position: 47
     length: 2
-    unit_of_measurement: "Hz"
     filters:
       - multiply: 0.01
+    icon: "mdi:sine-wave"
+    accuracy_decimals: 2
+    state_class: measurement
+    device_class: frequency
+    unit_of_measurement: "Hz"
+  
   ## IMPLEMENTED AS PART OF CMD 1
   # - platform: hekr
   #   name: "${friendly_name} Total Energy Consumed"
@@ -105,6 +137,7 @@ sensor:
   #   position: 49
   #   length: 4
   #   unit_of_measurement: "kWh"
+
   - platform: hekr
     name: "${friendly_name} Active Energy Import"
     id: sensor_active_energy_import
@@ -113,6 +146,10 @@ sensor:
     length: 4
     filters:
       - multiply: 0.01
+    state_class: total_increasing
+    device_class: energy
+    unit_of_measurement: kWh
+
   - platform: hekr
     name: "${friendly_name} Active Energy Export"
     id: sensor_active_energy_export
@@ -121,3 +158,6 @@ sensor:
     length: 4
     filters:
       - multiply: 0.01
+    state_class: total_increasing
+    device_class: energy
+    unit_of_measurement: kWh
