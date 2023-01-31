@@ -91,7 +91,7 @@ sensor:
     length: 3
     filters:
       - lambda: *to_signed_float_filter
-      - multiply: 0.0001
+      #- multiply: 0.0001
     icon: mdi:lightning-bolt
     accuracy_decimals: 4
     state_class: measurement
