@@ -28,7 +28,7 @@ button:
     name: "${friendly_name} Clear Device"
     id: button_clear_device
     entity_category: config
-    on_press: 
+    on_press:
       then:
         hekr.command: 5
   - platform: template
@@ -59,7 +59,7 @@ sensor:
     name: "${friendly_name} Total Energy"
     id: sensor_total_energy
     command: 1
-    position: 1
+    position: 2
     length: 4
     filters:
       - multiply: 0.01
@@ -68,17 +68,17 @@ sensor:
     state_class: total
     device_class: energy
     unit_of_measurement: "kWh"
-  
+
   - platform: hekr
     name: "${friendly_name} Reactive Power"
     id: sensor_reactive_power
     command: 11
     position: 15
     length: 3
-    filters:
+    filters: &power_filters
       - lambda: &to_signed_float_filter "return x < 100000 ? x : 100000 - x;"
       - multiply: 0.1
-    accuracy_decimals: 4
+    accuracy_decimals: 1
     state_class: measurement
     device_class: reactive_power
     unit_of_measurement: var
@@ -91,11 +91,9 @@ sensor:
     command: 1
     position: 7
     length: 3
-    filters:
-      - lambda: *to_signed_float_filter
-      - multiply: 0.1
+    filters: *power_filters
     icon: mdi:lightning-bolt
-    accuracy_decimals: 4
+    accuracy_decimals: 1
     state_class: measurement
     device_class: power
     unit_of_measurement: "W"
