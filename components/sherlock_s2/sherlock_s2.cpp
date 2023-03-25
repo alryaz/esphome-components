@@ -101,7 +101,7 @@ namespace esphome
                         }
                         else if (!strncmp(token2, "Hori Det Int", 13))
                         {
-                            ESP_LOGVD("sherlock_s2", "Horizontal position determined");
+                            ESP_LOGD("sherlock_s2", "Horizontal position determined");
                             finished_performing_action = true;
                         }
                         else if (!strncmp(token2, "Led_Mode", 8))
