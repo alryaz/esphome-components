@@ -101,34 +101,35 @@ namespace esphome
                         }
                         else if (!strncmp(token2, "Hori Det Int", 13))
                         {
-                            ESP_LOGD("sherlock_s2", "Horizontal position determined");
+                            ESP_LOGVD("sherlock_s2", "Horizontal position determined");
                             finished_performing_action = true;
                         }
                         else if (!strncmp(token2, "Led_Mode", 8))
                         {
-                            ESP_LOGD("sherlock_s2", "LED State: %d", atoi(token3));
+                            ESP_LOGV("sherlock_s2", "LED State: %d", atoi(token3));
                         }
                         else if (!strncmp(token2, "Average_Val", 11))
                         {
-                            ESP_LOGD("sherlock_s2", "%s == %d", token2, atoi(token3));
+                            ESP_LOGV("sherlock_s2", "%s == %d", token2, atoi(token3));
                         }
                         else if (!strncmp(token2, "Batt_V", 6))
                         {
                             float battery_voltage = atoi(token3);
                             battery_voltage /= 1000;
 
-                            ESP_LOGD("sherlock_s2", "Battery voltage: %f", battery_voltage);
+                            ESP_LOGV("sherlock_s2", "Battery voltage: %f", battery_voltage);
 
-                            if (this->battery_level_sensor_ != nullptr)
+                            if (this->voltage_sensor_ != nullptr)
                             {
-                                this->battery_level_sensor_->publish_state(battery_voltage);
+                                this->voltage_sensor_->publish_state(battery_voltage);
                             }
                         }
                         else if (!strncmp(token2, "Vol_Per", 7))
                         {
                             int battery_percentage = atoi(token3);
 
-                            ESP_LOGD("sherlock_s2", "Battery percentage: %d%%", atoi(token3));
+                            ESP_LOGV("sherlock_s2", "Battery percentage: %d%%", atoi(token3));
+
                             if (this->battery_level_sensor_ != nullptr)
                             {
                                 battery_percentage = battery_percentage > 100 ? 100 : battery_percentage;
