@@ -5,7 +5,6 @@ from esphome.components import sensor, uart
 from esphome.const import (
     CONF_ID,
     CONF_TRIGGER_ID,
-    CONF_VOLTAGE,
     DEVICE_CLASS_VOLTAGE,
     STATE_CLASS_MEASUREMENT,
     UNIT_VOLT,
@@ -84,10 +83,10 @@ async def to_code(config):
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
 
-    if CONF_VOLTAGE in config:
-        conf = config[CONF_VOLTAGE]
+    if CONF_BATTERY_VOLTAGE in config:
+        conf = config[CONF_BATTERY_VOLTAGE]
         sens = await sensor.new_sensor(conf)
-        cg.add(var.set_voltage_sensor(sens))
+        cg.add(var.set_battery_voltage_sensor(sens))
     if CONF_BATTERY_LEVEL in config:
         conf = config[CONF_BATTERY_LEVEL]
         sens = await sensor.new_sensor(conf)
