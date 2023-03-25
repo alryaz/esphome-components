@@ -45,7 +45,7 @@ namespace esphome
         protected:
             uint8_t read_pos_{0};
             char read_buffer_[SHERLOCK_S2_READ_BUFFER_SIZE]{};
-            sensor::Sensor *voltage_sensor_{nullptr};
+            sensor::Sensor *battery_voltage_sensor_{nullptr};
             sensor::Sensor *battery_level_sensor_{nullptr};
             binary_sensor::BinarySensor *lock_state_sensor_{nullptr};
 
@@ -60,7 +60,7 @@ namespace esphome
             std::vector<SherlockS2LockStateTrigger *> unlock_triggers_{};
 
         public:
-            void set_voltage_sensor(sensor::Sensor *voltage_sensor) { this->voltage_sensor_ = voltage_sensor; }
+            void set_battery_voltage_sensor(sensor::Sensor *battery_voltage_sensor) { this->battery_voltage_sensor_ = battery_voltage_sensor; }
             void set_battery_level_sensor(sensor::Sensor *battery_level_sensor) { this->battery_level_sensor_ = battery_level_sensor; }
 
             void add_on_action_start_callback(std::function<void()> &&callback) { this->action_start_callbacks_.add(std::move(callback)); }
