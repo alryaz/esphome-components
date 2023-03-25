@@ -119,9 +119,9 @@ namespace esphome
 
                             ESP_LOGV("sherlock_s2", "Battery voltage: %f", battery_voltage);
 
-                            if (this->voltage_sensor_ != nullptr)
+                            if (this->battery_voltage_sensor_ != nullptr)
                             {
-                                this->voltage_sensor_->publish_state(battery_voltage);
+                                this->battery_voltage_sensor_->publish_state(battery_voltage);
                             }
                         }
                         else if (!strncmp(token2, "Vol_Per", 7))
